@@ -69,14 +69,16 @@ setup(
     install_requires = get_install_requires('requirements.txt'),
     classifiers=[
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3 :: Only',
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX :: Linux',
         'Operating System :: Microsoft :: Windows',
-        'Framework :: AsyncIO',
     ],
-    python_requires='>=3.7',
-    keywords=["fnvhash-c" ,]
+    python_requires='>=3.5',
+    keywords=["fnvhash-c" , "fnvhash" , "hash" , "fnv"]
 )
