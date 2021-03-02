@@ -1,0 +1,6 @@
+Sphinx
+sphinx-autobuild
+recommonmark
+sphinx_nameko_theme
+sphinx_markdown_tables
+bare_pypi_init_update
