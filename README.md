@@ -6,6 +6,11 @@
 [![Build](https://github.com/GoodManWEN/fnvhash-c/workflows/Build/badge.svg)](https://github.com/GoodManWEN/fnvhash-c/actions?query=workflow:Build)
 [![Docs](https://readthedocs.org/projects/fnvhash-c/badge/?version=latest)](https://readthedocs.org/projects/fnvhash-c/)
 
+Python FNV hash implementation based on cython, to give you an alternative choice 
+when you need a high speed hash in python, with code structure referenced to
+https://github.com/znerol/py-fnvhash
+
+Because of deprecation, we selectively did not implement FNV-0.
 
 ## Requirements
 - Some requirements.
