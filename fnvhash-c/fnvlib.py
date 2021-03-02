@@ -1,0 +1,13 @@
+# dummy
+
+def fnv1_32():
+    ...
+
+def fnv1a_32():
+    ...
+
+def fnv1_64():
+    ...
+
+def fnv1a_64():
+    ...
