@@ -2,8 +2,10 @@ __author__ = 'WEN (github.com/GoodManWEN)'
 __version__ = ''
 
 from .fnvlib import *
+from .bfilt import BloomFilter
 
 __all__ = (
+    'BloomFilter',
     'fnv1_32',
     'fnv1a_32',
     'fnv1_64',
