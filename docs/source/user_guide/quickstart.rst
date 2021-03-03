@@ -7,7 +7,7 @@ Quick Start
 Install fnvhash-c
 =======================
 
-Supports python3.7 or later.
+Supports python3.5 or later.
 
 - Install from PyPI:
 
