@@ -17,6 +17,7 @@ With code structure referenced to [https://github.com/znerol/py-fnvhash](https:/
     pip install fnvhash-c
 
 ## Feature
+- Implementation in pure C, you can expect a 30x to 50x speedup.
 - Hash latency reduce to under 100ns.
 - A simple bloom filter built inside , which uses a slightly different parameter than the default value to keep result diverse. Ultra fast to use for state less authentication.
 
