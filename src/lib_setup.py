@@ -15,5 +15,5 @@ setup(
 )
 
 # CLI referrence: 
-# python cython_plugin_cdi_setup.py build_ext --inplace
-# cython cython_plugin_cdi.pyx -a
+# python lib_setup.py build_ext --inplace
+# cython lib.pyx -a

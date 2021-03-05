@@ -121,11 +121,7 @@ def fnv1a_64(char * data , unsigned long long hval_init=FNV1_64A_INIT):
     """
     return fnva_64(data, hval_init, FNV_64_PRIME, FNV_64_MOD)
 
-def hit(char * checker , char * data):
-    '''
-    Check out if the input string hits the bloom filter checer.
-    If returns True , means that hit occur , thre's chance data in blacklist.
-    '''
+def hit(char * checker , char * data , ):
     cdef unsigned int length_c = strlen(checker)
     if length_c != L3:
         return True
@@ -144,9 +140,6 @@ def hit(char * checker , char * data):
     return False
 
 def update(char * checker , char * data , ):
-    '''
-    Basic Bloom Filter update function.
-    '''
     cdef unsigned int length_c = strlen(checker)
     if length_c != L3:
         raise ValueError(f'Not allow checker less than {L3}')

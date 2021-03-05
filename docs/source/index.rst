@@ -1,6 +1,6 @@
 Welcome to fnvhash-c's documentation!
 ===========================================
-**fnvhash-c** is a project that...
+**fnvhash-c** provides the fastest hash function you can find in python.
 
 **fnvhash-c** is distributed under an open-source :ref:`license <license>`. 
 
@@ -11,6 +11,7 @@ User Guide
     :maxdepth: 3
 
     user_guide/quickstart.rst
+    user_guide/bloomfilter.rst
 
 API Manual
 ==========
@@ -19,6 +20,7 @@ API Manual
     :maxdepth: 3
 
     api_manual/moduleinterface.rst
+    api_manual/filterclass.rst
 
 Indices and tables
 ==================

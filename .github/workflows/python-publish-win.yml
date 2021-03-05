@@ -1,0 +1,51 @@
+# This workflows will upload a Python Package using Twine when a release is created
+# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+
+name: Publish
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ]
+        include:
+          - os: windows-latest
+            ext_name: pyd
+            opt_name: move
+            del_name: del
+        # python-version: ['3.6','3.7','3.8','3.9']
+        python-version: ['3.9']
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+    - name: Install dependencies
+      run: |
+        echo ${GITHUB_REF}
+        python -m pip install --upgrade pip
+        pip install setuptools wheel twine requests beautifulsoup4 lxml cython
+    - name: Build binary
+      working-directory: ./src
+      run: |
+        python lib_setup.py build_ext --inplace
+        ${{ matrix.opt_name }} *.${{ matrix.ext_name }} ../fnvhash_c
+    - name: Build and publish
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        python setup.py bdist_wheel
+        # python publish_rename.py ${{ matrix.python-version }}
+        twine upload --repository testpypi dist/*

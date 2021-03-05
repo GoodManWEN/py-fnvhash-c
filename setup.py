@@ -18,7 +18,7 @@ def get_install_requires(filename):
     return [x.strip() for x in lines]
 
 # 
-url = 'https://github.com/GoodManWEN/fnvhash-c'
+url = 'https://github.com/GoodManWEN/py-fnvhash-c'
 release = f'{url}/releases/latest'
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36",
@@ -45,7 +45,7 @@ long_description_lines_copy.insert(0,'r"""\n')
 long_description_lines_copy.append('"""\n')
 
 # update __init__ docs
-with open('fnvhash-c/__init__.py','r',encoding='utf-8') as f:
+with open('fnvhash_c/__init__.py','r',encoding='utf-8') as f:
     init_content = f.readlines()
 
 for line in init_content:
@@ -54,8 +54,13 @@ for line in init_content:
     else:
         long_description_lines_copy.append(line)
 
-with open('fnvhash-c/__init__.py','w',encoding='utf-8') as f:
+with open('fnvhash_c/__init__.py','w',encoding='utf-8') as f:
     f.writelines(long_description_lines_copy)
+    
+import os
+for files in os.walk(os.path.join(os.path.abspath('.') , 'fnvhash_c')):
+    files = files[2];break
+files = list(filter(lambda x:os.path.splitext(x)[1] in ['.so','.pyd'] , files))
 
 setup(
     name="fnvhash-c", 
@@ -64,12 +69,14 @@ setup(
     description=description,
     long_description=''.join(long_description_lines),
     long_description_content_type="text/markdown",
-    url="https://github.com/GoodManWEN/fnvhash-c",
+    url="https://github.com/GoodManWEN/py-fnvhash-c",
     packages = find_packages(),
+    package_data={
+        'fnvhash_c': files,
+    },
     install_requires = get_install_requires('requirements.txt'),
     classifiers=[
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
@@ -79,6 +86,6 @@ setup(
         'Operating System :: POSIX :: Linux',
         'Operating System :: Microsoft :: Windows',
     ],
-    python_requires='>=3.5',
+    python_requires='>=3.6',
     keywords=["fnvhash-c" , "fnvhash" , "hash" , "fnv"]
 )
