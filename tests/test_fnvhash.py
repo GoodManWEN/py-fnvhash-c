@@ -73,4 +73,4 @@ async def test_time():
     assert sum(res_c) * 30 <= sum(res_py)
     for name , c , py in zip(('fnv1_32' , 'fnv1a_32' , 'fnv1_64' , 'fnv1a_64') , res_c , res_py):
         assert c * 20 <= py
-        print(f"Runtime compare {name}: {round(c*1000,4)}ns / {round(py,4)}μs")
+        print(f"Runtime compare {name}: {round(c*1000,4)}ns / {round(py,4)}us")
