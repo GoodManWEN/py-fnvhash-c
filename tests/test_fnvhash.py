@@ -24,7 +24,7 @@ async def test_same():
 
 @pytest.mark.asyncio
 async def test_time():
-    print("Execute time test")
+    print("\nExecute time test")
     test_time = 500000
     char = rand_char_generator()
     
@@ -73,4 +73,4 @@ async def test_time():
     assert sum(res_c) * 30 <= sum(res_py)
     for name , c , py in zip(('fnv1_32' , 'fnv1a_32' , 'fnv1_64' , 'fnv1a_64') , res_c , res_py):
         assert c * 20 <= py
-        print(f"Runtime compare {name}: {round(c,4)}ns / {round(py,4)}ns")
+        print(f"Runtime compare {name}: {round(c*1000,4)}ns / {round(py,4)}μs")
