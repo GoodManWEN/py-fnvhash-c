@@ -30,8 +30,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Get the version
       id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-    - name: Install dependencies
+      run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+    - name: Install dependencies ${{ steps.get_version.outputs.VERSION }}
       run: |
         echo ${GITHUB_REF}
         python -m pip install --upgrade pip
