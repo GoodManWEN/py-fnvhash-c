@@ -46,7 +46,7 @@ center = fnvhash_c.BloomFilter(capability = 4096)
 import random
 random_char_generator = lambda : f"{random.randint(1000000000,9999999999)}+salt".encode()
 
-test_time = 10000000
+test_time = 1000000
 hit = 0
 miss = 0
 for _ in range(test_time):
@@ -57,7 +57,7 @@ for _ in range(test_time):
 
 # Since the filter is total blank ,the hit rate should be very low
 assert (hit * 100 / test_time) <= 0.01
-print(hit * 100 / test_time)
+print(f"Empty filter hit rate: {round(hit * 100 / test_time)}%")
 
 # Now we put something into the filter list.
 black_list = [random_char_generator() for _ in range(10000)]
@@ -68,11 +68,11 @@ hit = 0
 for _ in range(test_time):
     if center.hit(random_char_generator()):
         hit += 1
-print(hit * 100 / test_time)
+print(f"Filter with 10k elements hit rate: {round(hit * 100 / test_time,2)}%")
 
 hit = 0
 for char in black_list:
     if center.hit(char):
         hit += 1
-print(hit * 100 / len(black_list)) # should be 100%
+print(f"Items in the blacklist hit rate: {round(hit * 100 / len(black_list),2)}%", ) # should be 100%
 ```
