@@ -19,7 +19,7 @@ With code structure referenced to [https://github.com/znerol/py-fnvhash](https:/
 ## Feature
 - Implementation in pure C, you can expect a 30x to 50x speedup.
 - Hash latency reduce to under 100ns.
-- A simple bloom filter built inside , which uses a slightly different parameter than the default value to keep result diverse. Ultra fast to use for state less authentication.
+- A simple bloom filter built inside , which uses a slightly different parameter than the default value to keep result diverse. Ultra fast to use for distributed blacklist scenarios.
 - CityHash included, since the [original repo](https://github.com/escherba/python-cityhash) is no longer maintained, it is difficult to compile directly on windows.
 
 ## Documentation
