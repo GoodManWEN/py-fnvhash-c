@@ -49,3 +49,27 @@ Module Interface
         
         ``hval_init`` sets the initial value of the loop algorithm,
             should input a integer which is above zero.
+
+.. function:: CityHash32(str)
+
+    Returns the 32 bit CityHash value for the given data.
+
+    .. note::
+
+        Accepts str object only.
+
+.. function:: CityHash64(str)
+
+    Returns the 64 bit CityHash value for the given data.
+
+    .. note::
+
+        Accepts str object only.
+
+.. function:: CityHash128(str)
+
+    Returns the 128 bit CityHash value for the given data.
+
+    .. note::
+
+        Accepts str object only.

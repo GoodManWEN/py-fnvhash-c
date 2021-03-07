@@ -1,5 +1,4 @@
-
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Distribution
 from requests import get as rget
 from bs4 import BeautifulSoup
 import logging , sys
@@ -17,11 +16,12 @@ def get_install_requires(filename):
         lines = f.readlines()
     return [x.strip() for x in lines]
 
+
 # 
 url = 'https://github.com/GoodManWEN/py-fnvhash-c'
 release = f'{url}/releases/latest'
 headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36",
     "Connection": "keep-alive",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
     "Accept-Language": "zh-CN,zh;q=0.8"
@@ -29,12 +29,16 @@ headers = {
 
 html = BeautifulSoup(rget(url , headers).text ,'lxml')
 description = html.find('meta' ,{'name':'description'}).get('content')
-html = BeautifulSoup(rget(release , headers).text ,'lxml')
-version = html.find('div',{'class':'release-header'}).find('a').text
+logger.info(f"description: {description}")
+
+#
+with open('tagname','r',encoding='utf-8') as f:
+    version = f.read()
 if ':' in version:
     version = version[:version.index(':')].strip()
-logger.info(f"description: {description}")
+version = version.strip()
 logger.info(f"version: {version}")
+
 
 #
 with open('README.md','r',encoding='utf-8') as f:
@@ -62,30 +66,18 @@ for files in os.walk(os.path.join(os.path.abspath('.') , 'fnvhash_c')):
     files = files[2];break
 files = list(filter(lambda x:os.path.splitext(x)[1] in ['.so','.pyd'] , files))
 
+class BinaryDistribution(Distribution):
+    def has_ext_modules(foo):
+        return True
+
 setup(
-    name="fnvhash-c", 
     version=version,
-    author="WEN",
     description=description,
-    long_description=''.join(long_description_lines),
-    long_description_content_type="text/markdown",
-    url="https://github.com/GoodManWEN/py-fnvhash-c",
     packages = find_packages(),
     package_data={
         'fnvhash_c': files,
     },
+    distclass=BinaryDistribution,
     install_requires = get_install_requires('requirements.txt'),
-    classifiers=[
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
-        'Programming Language :: Python :: 3 :: Only',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: POSIX :: Linux',
-        'Operating System :: Microsoft :: Windows',
-    ],
-    python_requires='>=3.6',
-    keywords=["fnvhash-c" , "fnvhash" , "hash" , "fnv"]
+    keywords=["fnvhash-c" , "fnvhash" , "hash" , "fnv"],
 )
