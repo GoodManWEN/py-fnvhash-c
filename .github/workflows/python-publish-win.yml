@@ -1,26 +1,32 @@
-# This workflows will upload a Python Package using Twine when a release is created
-# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
-
-name: Publish
+name: Test
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - 'main'
+      - '[0-9].[0-9]+'  # matches to backport branches, e.g. 3.6
+      - dev
+  pull_request:
+    branches:
+      - 'main'
+      - '[0-9].[0-9]+'
+  schedule:
+    - cron:  '0 9 1 * *'  # Runs at 09:00 UTC on the 1st of every month
 
 jobs:
-  deploy:
+  build:
 
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ]
+        os: [ubuntu-latest]
         include:
-          - os: windows-latest
-            ext_name: pyd
-            opt_name: move
-            del_name: del
-        python-version: ['3.6','3.7','3.8','3.9']
-
+          - os: ubuntu-latest
+            ext_name: so
+            opt_name: mv
+            del_name: rm
+            pip_name: cityhash
+        python-version: ['3.9']
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -34,18 +40,20 @@ jobs:
       run: |
         echo ${{ steps.get_version.outputs.version-without-v }} >> tagname
         python -m pip install --upgrade pip
-        pip install setuptools wheel twine requests beautifulsoup4 lxml cython
-    - name: Build binary
+        python -m pip install flake8 pytest pytest-asyncio cython ${{ matrix.pip_name }}
+    - name: Lint with flake8 for syntax errors
+      run: |
+        pip install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Build manylinux Python wheels
+      uses: RalfG/python-wheels-manylinux-build@v0.3.3-manylinux2010_x86_64
+      with:
+        python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39'
+        build-requirements: 'cython'
+    - name: Publish wheels to PyPI
       working-directory: ./src
       run: |
-        python lib_setup.py build_ext --inplace
-        python cityhash_setup.py build_ext --inplace
-        ${{ matrix.opt_name }} *.${{ matrix.ext_name }} ../fnvhash_c
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python setup.py bdist_wheel 
-        # twine upload --repository testpypi dist/*
-        twine upload dist/*
+        ls
+        cd ../dist
+        ls
