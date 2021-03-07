@@ -12,6 +12,7 @@ User Guide
 
     user_guide/quickstart.rst
     user_guide/bloomfilter.rst
+    user_guide/cityhash.rst
 
 API Manual
 ==========
