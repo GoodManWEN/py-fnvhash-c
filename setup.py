@@ -9,7 +9,7 @@ sh = logging.StreamHandler(stream=sys.stdout)
 format = logging.Formatter("%(message)s")#("%(asctime)s - %(message)s") 
 sh.setFormatter(format)
 logger.addHandler(sh)
-
+ 
 #
 def get_install_requires(filename):
     with open(filename,'r') as f:
