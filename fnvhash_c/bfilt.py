@@ -1,4 +1,5 @@
 from .fnvlib import *
+from random import random
 
 class BloomFilter:
 
@@ -24,3 +25,6 @@ class BloomFilter:
     @property
     def token(self) -> bytes:
         return self._token
+    
+    def randomchar_40() -> str:
+        return hex(int(random() * 0xefffffffffffffffffffffffffffffffffffffff + 0x1000000000000000000000000000000000000000))[2:]
