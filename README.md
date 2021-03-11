@@ -27,7 +27,6 @@ https://fnvhash-c.readthedocs.io
 
 ## Example
 
-Some description.
 ```Python3
 # example.py
 import fnvhash_c
