@@ -6,10 +6,10 @@ import time
 
 @pytest.mark.asyncio
 async def test_convert():
-    assert fnvhash_c.convret_char_into_int(b'123\x00a') == fnvhash_c.convret_char_into_int('123\x00a') == 211295600737
+    assert fnvhash_c.convert_char_into_int(b'123\x00a') == fnvhash_c.convert_char_into_int('123\x00a') == 211295600737
     try:
-        fnvhash_c.convret_char_into_int('123456789')
+        fnvhash_c.convert_char_into_int('123456789')
     except Exception as e:
         assert isinstance(e , AttributeError)
 
-    assert fnvhash_c.convret_int_into_char(825373440) == b'123\x00'
+    assert fnvhash_c.convert_int_into_char(825373440) == b'123\x00'
