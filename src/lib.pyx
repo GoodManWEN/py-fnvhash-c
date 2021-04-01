@@ -261,7 +261,7 @@ cpdef update(char * checker, data):
     update_char(checker , L4*3 , d)
     return checker[:L3]
 
-cpdef convret_char_into_int(data):
+cpdef convert_char_into_int(data):
 
     cdef Py_buffer buf;
     cdef object obj;
@@ -282,7 +282,7 @@ cpdef convret_char_into_int(data):
         raise AttributeError("Input type error, expect string or bytes")
     return result
 
-cpdef convret_int_into_char(unsigned long long int target):
+cpdef convert_int_into_char(unsigned long long int target):
     
     if target >= (1<<32):
         raise AttributeError("Too large target")
