@@ -98,11 +98,11 @@ cdef void update_char(char * checker , unsigned long int start_p , unsigned long
     cdef unsigned char target = checker[start_p + fix] & bias
     checker[start_p + fix] = target
 
-cdef unsigned long long int reverse_adder(const char *p , unsigned long int size):
+cdef unsigned long int reverse_adder(const char *p , unsigned long int size):
     cdef unsigned long int i = 0;
-    cdef unsigned long long int result = 0;
+    cdef unsigned long int result = 0;
     for i in range(size):
-        result += <unsigned long int>((<unsigned char> p[i]) << ((size - 1 - i) * 8))
+        result += <unsigned long int> ((<unsigned char> p[i]) << ((size-i-1) * 8))
     return result
 
 
@@ -265,17 +265,17 @@ cpdef convert_char_into_int(data):
 
     cdef Py_buffer buf;
     cdef object obj;
-    cdef unsigned long long int result = 0;
+    cdef unsigned long int result = 0;
     
     if PyUnicode_Check(data):
         obj = PyUnicode_AsUTF8String(data)
         PyObject_GetBuffer(obj, &buf, PyBUF_SIMPLE)
-        if buf.len > 8:
+        if buf.len > 4:
             raise AttributeError("Input string too long")
         result = reverse_adder(<const char*>buf.buf, buf.len)
         PyBuffer_Release(&buf)
     elif PyBytes_Check(data):
-        if PyBytes_GET_SIZE(data) > 8:
+        if PyBytes_GET_SIZE(data) > 4:
             raise AttributeError("Input string too long")
         result = reverse_adder(<const char*>PyBytes_AS_STRING(data), PyBytes_GET_SIZE(data))
     else:
