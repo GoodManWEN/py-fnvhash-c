@@ -3,4 +3,3 @@ sphinx-autobuild
 recommonmark
 sphinx_nameko_theme
 sphinx_markdown_tables
-fnvhash-c
