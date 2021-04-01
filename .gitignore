@@ -136,3 +136,5 @@ dmypy.json
 
 #
 src/lib.cpp
+src/lib.c
+src/lib.html

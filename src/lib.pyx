@@ -281,3 +281,17 @@ cpdef convret_char_into_int(data):
     else:
         raise AttributeError("Input type error, expect string or bytes")
     return result
+
+cpdef convret_int_into_char(unsigned long long int target):
+    
+    if target >= (1<<32):
+        raise AttributeError("Too large target")
+    if target <= 0:
+        return b'\x00\x00\x00\x00'
+
+    cdef char result[4];
+    result[0] = <unsigned char> ((target & 0xFF000000) >> 24)
+    result[1] = <unsigned char> ((target & 0x00FF0000) >> 16)
+    result[2] = <unsigned char> ((target & 0x0000FF00) >> 8)
+    result[3] = <unsigned char> (target & 0x000000FF)
+    return  result[:4]
