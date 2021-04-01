@@ -133,3 +133,6 @@ dmypy.json
 
 # Sphinx
 /docs/build
+
+#
+src/lib.cpp

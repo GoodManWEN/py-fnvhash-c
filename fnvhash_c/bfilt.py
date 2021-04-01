@@ -1,17 +1,16 @@
 from .fnvlib import *
-from random import random
 
 class BloomFilter:
 
-    def __init__(self , capability:int = 4096):
+    def __init__(self , capability:int = 65536):
         '''
-        capability:int = 4096 by default
-            means 8192 result posibility for each hashfunc,
-            needs 1024 chars to represent ,
-            total 4096 chars of full token.
+        capability:int = 65536 by default
+            means 131072 result posibility for each hashfunc,
+            needs 16384 chars to represent ,
+            total 65536 chars of full token.
         '''
         self._capability = capability
-        self._token : bytes = b'\xFE' * capability
+        self._token : bytes = b'\xFF' * capability
 
     def hit(self , char:bytes) -> bool:
         return hit(self._token , char)
@@ -20,11 +19,8 @@ class BloomFilter:
         update(self._token , char)
     
     def refresh(self) -> None:
-        self._token = b'\xFE' * self._capability
+        self._token = b'\xFF' * self._capability
 
     @property
     def token(self) -> bytes:
         return self._token
-    
-    def randomchar_40() -> str:
-        return hex(int(random() * 0xefffffffffffffffffffffffffffffffffffffff + 0x1000000000000000000000000000000000000000))[2:]
