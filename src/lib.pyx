@@ -102,7 +102,8 @@ cdef unsigned long long int reverse_adder(const char *p , unsigned long int size
     cdef unsigned long int i = 0;
     cdef unsigned long long int result = 0;
     for i in range(size):
-        result += (<unsigned long long int>p[i]) << ((size - 1 - i) * 8)
+        print(result, (<unsigned char> p[i]) , i , size ,<unsigned long int>((<unsigned char> p[i]) << ((size - 1 - i) * 8)))
+        result += <unsigned long int>((<unsigned char> p[i]) << ((size - 1 - i) * 8))
     return result
 
 

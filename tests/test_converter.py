@@ -13,3 +13,6 @@ async def test_convert():
         assert isinstance(e , AttributeError)
 
     assert fnvhash_c.convert_int_into_char(825373440) == b'123\x00'
+
+    assert fnvhash_c.convert_char_into_int(b'\x84\x8d1}') == 
+    assert fnvhash_c.convert_int_into_char(2223845757) == b'\x84\x8d1}'
