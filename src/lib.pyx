@@ -10,79 +10,79 @@ when you need a high speed hash in python, with code structure referenced to
 https://github.com/znerol/py-fnvhash
 '''
 # cdef extern from * nogil:
-#     ctypedef unsigned long int u32
-#     ctypedef unsigned long long int u64
+#     ctypedef unsigned int u32
+#     ctypedef unsigned long long u64
 
-cdef unsigned long int FNV_32_PRIME = 16777619
-cdef unsigned long int FNV_32_MOD = 4294967295
-cdef unsigned long int FNV1_32_INIT = 2166136261
-cdef unsigned long int FNV1_32A_INIT = FNV1_32_INIT
+cdef unsigned int FNV_32_PRIME = 16777619
+cdef unsigned int FNV_32_MOD = 4294967295
+cdef unsigned int FNV1_32_INIT = 2166136261
+cdef unsigned int FNV1_32A_INIT = FNV1_32_INIT
 
-cdef unsigned long long int FNV_64_PRIME = 1099511628211
-cdef unsigned long long int FNV_64_MOD = 18446744073709551615
-cdef unsigned long long int FNV1_64_INIT = 14695981039346656037
-cdef unsigned long long int FNV1_64A_INIT = FNV1_64_INIT
+cdef unsigned long long FNV_64_PRIME = 1099511628211
+cdef unsigned long long FNV_64_MOD = 18446744073709551615
+cdef unsigned long long FNV1_64_INIT = 14695981039346656037
+cdef unsigned long long FNV1_64A_INIT = FNV1_64_INIT
 
 # In efficiency concern , if you'd like to modify the default capability , modify source code and rebuild it .
-cdef unsigned long int L1 = 131072
-cdef unsigned long int L2 = L1 - 1
-cdef unsigned long int L3 = L1 >> 1
-cdef unsigned long int L4 = L1 >> 3
+cdef unsigned int L1 = 131072
+cdef unsigned int L2 = L1 - 1
+cdef unsigned int L3 = L1 >> 1
+cdef unsigned int L4 = L1 >> 3
 
-cdef unsigned long int fnv_32(const char * data, unsigned long int lenth, unsigned long int hval_init, unsigned long int fnv_prime, unsigned long int fnv_size , unsigned long int _bias = 0)  nogil:
+cdef unsigned int fnv_32(const char * data, unsigned int lenth, unsigned int hval_init, unsigned int fnv_prime, unsigned int fnv_size , unsigned int _bias = 0)  nogil:
     """
     Core FNV hash algorithm used in FNV0 and FNV1.
     """
-    cdef unsigned long int i
+    cdef unsigned int i
     cdef unsigned char ubyte
-    cdef unsigned long int hval = hval_init
+    cdef unsigned int hval = hval_init
     for i in range(lenth):
         ubyte = data[i]
         hval = (hval * fnv_prime + _bias) & fnv_size
         hval = hval ^ ubyte
     return hval
 
-cdef unsigned long int fnva_32(const char * data, unsigned long int lenth, unsigned long int hval_init, unsigned long int fnv_prime, unsigned long int fnv_size , unsigned long int _bias = 0)  nogil:
+cdef unsigned int fnva_32(const char * data, unsigned int lenth, unsigned int hval_init, unsigned int fnv_prime, unsigned int fnv_size , unsigned int _bias = 0)  nogil:
     """
     Alternative FNV hash algorithm used in FNV-1a.
     """
-    cdef unsigned long int i
+    cdef unsigned int i
     cdef unsigned char ubyte
-    cdef unsigned long int hval = hval_init
+    cdef unsigned int hval = hval_init
     for i in range(lenth):
         ubyte = data[i]
         hval = hval ^ ubyte
         hval = (hval * fnv_prime + _bias) & fnv_size
     return hval
 
-cdef unsigned long long int fnv_64(const char * data, unsigned long int lenth, unsigned long long int hval_init, unsigned long long int fnv_prime, unsigned long long int fnv_size , unsigned long long int _bias = 0)  nogil:
+cdef unsigned long long fnv_64(const char * data, unsigned int lenth, unsigned long long hval_init, unsigned long long fnv_prime, unsigned long long fnv_size , unsigned long long _bias = 0)  nogil:
     """
     Core FNV hash algorithm used in FNV0 and FNV1.
     """
-    cdef unsigned long int i
+    cdef unsigned int i
     cdef unsigned char ubyte
-    cdef unsigned long long int hval = hval_init
+    cdef unsigned long long hval = hval_init
     for i in range(lenth):
         ubyte = data[i]
         hval = (hval * fnv_prime + _bias) & fnv_size
         hval = hval ^ ubyte
     return hval
 
-cdef unsigned long long int fnva_64(const char * data, unsigned long int lenth, unsigned long long int hval_init, unsigned long long int fnv_prime, unsigned long long int fnv_size , unsigned long long int _bias = 0):
+cdef unsigned long long fnva_64(const char * data, unsigned int lenth, unsigned long long hval_init, unsigned long long fnv_prime, unsigned long long fnv_size , unsigned long long _bias = 0):
     """
     Alternative FNV hash algorithm used in FNV-1a.
     """
-    cdef unsigned long int i
+    cdef unsigned int i
     cdef unsigned char ubyte
-    cdef unsigned long long int hval = hval_init
+    cdef unsigned long long hval = hval_init
     for i in range(lenth):
         ubyte = data[i]
         hval = hval ^ ubyte
         hval = (hval * fnv_prime + _bias) & fnv_size
     return hval
 
-cdef bint check_activat(char * checker , unsigned long int start_p , unsigned long int token):
-    cdef unsigned long int fix = token >> 3 
+cdef bint check_activat(char * checker , unsigned int start_p , unsigned int token):
+    cdef unsigned int fix = token >> 3 
     cdef unsigned char bias = 1 << (7 - (token & 7))
     cdef unsigned char target = (checker[start_p + fix] ^ 0b11111111)
     if bias == 1:
@@ -92,15 +92,15 @@ cdef bint check_activat(char * checker , unsigned long int start_p , unsigned lo
     else:
         return False
 
-cdef void update_char(char * checker , unsigned long int start_p , unsigned long int token):
-    cdef unsigned long int fix = token >> 3 
+cdef void update_char(char * checker , unsigned int start_p , unsigned int token):
+    cdef unsigned int fix = token >> 3 
     cdef unsigned char bias = (1 << (7 - (token & 7))) ^ 0b11111111
     cdef unsigned char target = checker[start_p + fix] & bias
     checker[start_p + fix] = target
 
-cdef unsigned long int reverse_adder(const char *p , unsigned long int size):
-    cdef unsigned long int i = 0;
-    cdef unsigned long int result = 0;
+cdef unsigned int reverse_adder(const char *p , unsigned int size):
+    cdef unsigned int i = 0;
+    cdef unsigned int result = 0;
     for i in range(size):
         result += (<unsigned char> p[i]) << ((size-i-1) * 8)
     return result
@@ -120,13 +120,13 @@ from cpython.bytes cimport PyBytes_GET_SIZE
 from cpython.bytes cimport PyBytes_AS_STRING 
 
 
-cpdef fnv1_32(data , unsigned long int hval_init=FNV1_32_INIT):
+cpdef fnv1_32(data , unsigned int hval_init=FNV1_32_INIT):
     """
     Returns the 32 bit FNV-1 hash value for the given data.
     """
     cdef Py_buffer buf;
     cdef object obj;
-    cdef unsigned long int result = 0;
+    cdef unsigned int result = 0;
     
     if PyUnicode_Check(data):
         obj = PyUnicode_AsUTF8String(data)
@@ -139,13 +139,13 @@ cpdef fnv1_32(data , unsigned long int hval_init=FNV1_32_INIT):
         raise AttributeError("Input type error, expect string or bytes")
     return result
 
-cpdef fnv1a_32(data , unsigned long int hval_init=FNV1_32A_INIT):
+cpdef fnv1a_32(data , unsigned int hval_init=FNV1_32A_INIT):
     """
     Returns the 32 bit FNV-1a hash value for the given data.
     """
     cdef Py_buffer buf;
     cdef object obj;
-    cdef unsigned long int result = 0;
+    cdef unsigned int result = 0;
     
     if PyUnicode_Check(data):
         obj = PyUnicode_AsUTF8String(data)
@@ -158,13 +158,13 @@ cpdef fnv1a_32(data , unsigned long int hval_init=FNV1_32A_INIT):
         raise AttributeError("Input type error, expect string or bytes")
     return result
 
-cpdef fnv1_64(data , unsigned long long int hval_init=FNV1_64_INIT):
+cpdef fnv1_64(data , unsigned long long hval_init=FNV1_64_INIT):
     """
     Returns the 64 bit FNV-1 hash value for the given data.
     """
     cdef Py_buffer buf;
     cdef object obj;
-    cdef unsigned long long int result = 0;
+    cdef unsigned long long result = 0;
     
     if PyUnicode_Check(data):
         obj = PyUnicode_AsUTF8String(data)
@@ -177,13 +177,13 @@ cpdef fnv1_64(data , unsigned long long int hval_init=FNV1_64_INIT):
         raise AttributeError("Input type error, expect string or bytes")
     return result
 
-cpdef fnv1a_64(data , unsigned long long int hval_init=FNV1_64A_INIT):
+cpdef fnv1a_64(data , unsigned long long hval_init=FNV1_64A_INIT):
     """
     Returns the 64 bit FNV-1a hash value for the given data.
     """
     cdef Py_buffer buf;
     cdef object obj;
-    cdef unsigned long long int result = 0;
+    cdef unsigned long long result = 0;
     
     if PyUnicode_Check(data):
         obj = PyUnicode_AsUTF8String(data)
@@ -200,7 +200,7 @@ cpdef hit(char * checker, data):
     
     cdef Py_buffer buf;
     cdef object obj;
-    cdef unsigned long int star
+    cdef unsigned int star
     cdef bint a , b , c , d
 
     if PyUnicode_Check(data):
@@ -265,7 +265,7 @@ cpdef convert_char_into_int(data):
 
     cdef Py_buffer buf;
     cdef object obj;
-    cdef unsigned long int result = 0;
+    cdef unsigned int result = 0;
     
     if PyUnicode_Check(data):
         obj = PyUnicode_AsUTF8String(data)
@@ -282,7 +282,7 @@ cpdef convert_char_into_int(data):
         raise AttributeError("Input type error, expect string or bytes")
     return result
 
-cpdef convert_int_into_char(unsigned long long int target):
+cpdef convert_int_into_char(unsigned long long target):
     
     if target >= (1<<32):
         raise AttributeError("Too large target")
