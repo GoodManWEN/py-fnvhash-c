@@ -11,3 +11,5 @@ async def test_convert():
         fnvhash_c.convret_char_into_int('123456789')
     except Exception as e:
         assert isinstance(e , AttributeError)
+
+    assert fnvhash_c.convret_int_into_char(825373440) == b'123\x00'

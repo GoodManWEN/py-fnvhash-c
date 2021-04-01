@@ -293,5 +293,5 @@ cpdef convret_int_into_char(unsigned long long int target):
     result[0] = <unsigned char> ((target & 0xFF000000) >> 24)
     result[1] = <unsigned char> ((target & 0x00FF0000) >> 16)
     result[2] = <unsigned char> ((target & 0x0000FF00) >> 8)
-    result[3] = <unsigned char> (target & 0x000000FF)
+    result[3] = <unsigned char>  (target & 0x000000FF)
     return  result[:4]
