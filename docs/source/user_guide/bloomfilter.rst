@@ -35,5 +35,7 @@ According to the principle of Bloom Filter, we can only ensure that the bytes th
 
 To ensure the diversity of the hash results, the parameters of the fnvhash function used in Bloom Filter are slightly different than defaults, which does not show up in normal use if no special attention is paid to it.
 
-To reduce runtime calculations, the load capacity (4096 bytes by default, who performs idely when the number of blacklists is less than 10,000) has been compiled into the plugin as a constant. If you want to change the default values, you need to re-compile them yourself from the source file.
+To reduce runtime calculations, the load capacity (65536 bytes by default, who performs idely when the number of items in blacklists is less than 100k) has been compiled into the plugin as a constant. If you want to change the default values, you need to re-compile them yourself from the source file.
+
+You can check out [this link](https://hur.st/bloomfilter/) for further descreption of Bloom Filter, and use the online tool to calculate how large the capacity you should set to achieve the best efficiency in your own use case.
     
