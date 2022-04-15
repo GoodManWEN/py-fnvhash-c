@@ -29,6 +29,9 @@ headers = {
 
 html = BeautifulSoup(rget(url , headers).text ,'lxml')
 description = html.find('meta' ,{'name':'description'}).get('content')
+for kw in (' - GitHub', ' - GoodManWEN'):
+    if ' - GitHub' in description:
+        description = description[:description.index(' - GitHub')]
 logger.info(f"description: {description}")
 
 #
